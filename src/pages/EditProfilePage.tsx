@@ -86,7 +86,7 @@ const EditProfilePage = () => {
     return (
         <div
             className="min-h-screen bg-cover bg-center w-screen"
-            style={{ backgroundImage: "url('/bg-blur.jpg')" }}
+            style={{ backgroundImage: "url('/bg-blur.webp')" }}
         >
             {/* Top bar */}
             <div className="flex justify-between items-center p-4">

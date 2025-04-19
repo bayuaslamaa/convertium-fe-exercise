@@ -56,7 +56,7 @@ const Register = () => {
         <div
             className="min-h-screen bg-cover bg-center flex items-center justify-center px-4 w-screen text-black"
             style={{
-                backgroundImage: "url('/bg-blur-2.jpg')",
+                backgroundImage: "url('/bg-blur-2.webp')",
             }}
         >
             {/* Logo */}
