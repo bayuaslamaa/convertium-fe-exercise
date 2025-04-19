@@ -1,34 +1,52 @@
 import { Menu, UserRound } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { getProfileByUserId, updateProfileByUserId } from "../services/profile";
+import { useUser } from "../context/UserContextFull";
 
 const EditProfilePage = () => {
     const [activeTab, setActiveTab] = useState("Basic Details");
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const navigate = useNavigate();
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isValid },
-    } = useForm({
-        mode: "onChange",
-        defaultValues: {
-            salutation: "",
-            firstName: "",
-            lastName: "",
-            email: "",
-        },
-    });
+    const { register, handleSubmit, setValue, formState: { errors, isValid } } = useForm();
 
     const tabs = ["Basic Details", "Additional Details", "Spouse Details", "Personal Preferences"];
 
-    const onSubmit = (data: any) => {
-        console.log("Updated data:", data);
-        navigate("/profile");
-    };
+    const { profile, setProfile } = useUser();
 
+    useEffect(() => {
+
+        if (!profile?.userid) {
+            return;
+        }
+        const userid = profile?.userid as string; // or from context/cookie
+        getProfileByUserId(userid).then(({ data }) => {
+            if (data) {
+                setValue("firstname", data.firstname);
+                setValue("lastname", data.lastname);
+                setValue("email", data.email);
+                setValue("salutation", data.salutation);
+            }
+        });
+    }, [profile]);
+
+    const onSubmit = async (data: any) => {
+        const userid = profile?.userid;
+        if (!userid) {
+            return;
+        }
+        const { profile: updatedProfile, error } = await updateProfileByUserId(userid, data);
+        if (!error) {
+            alert("Profile updated!");
+            navigate("/profile");
+        }
+        if (updatedProfile) {
+            setProfile(updatedProfile);
+            localStorage.setItem("profile", JSON.stringify(updatedProfile));
+            navigate("/profile");
+        }
+    };
     return (
         <div
             className="min-h-screen bg-cover bg-center w-screen"
@@ -116,7 +134,7 @@ const EditProfilePage = () => {
                                         <option value="Mrs.">Mrs.</option>
                                     </select>
                                     {errors.salutation && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.salutation.message}</p>
+                                        <p className="text-red-500 text-sm mt-1">{errors.salutation.message?.toString()}</p>
                                     )}
                                 </div>
 
@@ -124,13 +142,13 @@ const EditProfilePage = () => {
                                 <div>
                                     <label className="font-bold mb-1 block">First name*</label>
                                     <input
-                                        {...register("firstName", {
+                                        {...register("firstname", {
                                             required: "First name is required.",
                                         })}
-                                        className={`w-full px-3 py-2 border-2 rounded bg-transparent text-black ${errors.firstName ? "border-red-500" : "border-black"}`}
+                                        className={`w-full px-3 py-2 border-2 rounded bg-transparent text-black ${errors.firstname ? "border-red-500" : "border-black"}`}
                                     />
-                                    {errors.firstName && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
+                                    {errors.firstname && (
+                                        <p className="text-red-500 text-sm mt-1">{errors.firstname.message?.toString()}</p>
                                     )}
                                 </div>
 
@@ -138,13 +156,13 @@ const EditProfilePage = () => {
                                 <div>
                                     <label className="font-bold mb-1 block">Last name*</label>
                                     <input
-                                        {...register("lastName", {
+                                        {...register("lastname", {
                                             required: "Last name is required.",
                                         })}
-                                        className={`w-full px-3 py-2 border-2 rounded bg-transparent text-black ${errors.lastName ? "border-red-500" : "border-black"}`}
+                                        className={`w-full px-3 py-2 border-2 rounded bg-transparent text-black ${errors.lastname ? "border-red-500" : "border-black"}`}
                                     />
-                                    {errors.lastName && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
+                                    {errors.lastname && (
+                                        <p className="text-red-500 text-sm mt-1">{errors.lastname.message?.toString()}</p>
                                     )}
                                 </div>
 
@@ -162,7 +180,7 @@ const EditProfilePage = () => {
                                         className={`w-full px-3 py-2 border-2 rounded bg-transparent text-black ${errors.email ? "border-red-500" : "border-black"}`}
                                     />
                                     {errors.email && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                                        <p className="text-red-500 text-sm mt-1">{errors.email.message?.toString()}</p>
                                     )}
                                 </div>
                                 {/* Action buttons */}

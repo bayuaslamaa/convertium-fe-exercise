@@ -6,22 +6,15 @@ import { useUser } from "../context/UserContextFull";
 const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("Basic Details");
     const [isDrawerOpen, setDrawerOpen] = useState(false);
-
-    const user = {
-        salutation: "Mr.",
-        firstName: "John",
-        lastName: "Doe Jr.",
-        email: "johndoe@anyemail.com",
-        maritalStatus: "Married", // for spouse tab
-    };
+    const { profile, setProfile } = useUser();
 
     const tabs = [
         "Basic Details",
         "Additional Details",
-        ...(user.maritalStatus === "Married" ? ["Spouse Details"] : []),
+        ...(profile?.maritalStatus === "Married" ? ["Spouse Details"] : []),
         "Personal Preferences",
     ];
-    const { profile, setProfile } = useUser();
+
 
     return (
         <div
@@ -110,11 +103,11 @@ const ProfilePage = () => {
                                 </div>
                                 <div>
                                     <div className="font-bold mb-1">First name*</div>
-                                    <div>{profile?.firstName || "-"}</div>
+                                    <div>{profile?.firstname || "-"}</div>
                                 </div>
                                 <div>
                                     <div className="font-bold mb-1">Last name*</div>
-                                    <div>{profile?.lastName || "-"}</div>
+                                    <div>{profile?.lastname || "-"}</div>
                                 </div>
                                 <div>
                                     <div className="font-bold mb-1">Email address*</div>
@@ -124,10 +117,77 @@ const ProfilePage = () => {
                         </div>
                     )}
 
-                    {/* Placeholder tabs */}
-                    {activeTab !== "Basic Details" && (
-                        <p className="text-gray-600">[ {activeTab} content here ]</p>
+                    {activeTab === "Additional Details" && (
+                        <div className="flex-1 space-y-4 md:space-y-6 text-black">
+                            <div>
+                                <div className="font-bold mb-1">Date of birth</div>
+                                <div>{profile?.dateOfBirth || "-"}</div>
+                            </div>
+                            <div>
+                                <div className="font-bold mb-1">Gender</div>
+                                <div>{profile?.gender || "-"}</div>
+                            </div>
+                            <div>
+                                <div className="font-bold mb-1">Phone number</div>
+                                <div>{profile?.phoneNumber || "-"}</div>
+                            </div>
+                            <div>
+                                <div className="font-bold mb-1">Address</div>
+                                <div>{profile?.address || "-"}</div>
+                            </div>
+                            <div>
+                                <div className="font-bold mb-1">Marital status</div>
+                                <div>{profile?.maritalStatus || "-"}</div>
+                            </div>
+                            <div>
+                                <div className="font-bold mb-1">Country</div>
+                                <div>{profile?.country || "-"}</div>
+                            </div>
+                        </div>
                     )}
+
+                    {activeTab === "Spouse Details" && (
+                        <div className="flex-1 space-y-4 md:space-y-6 text-black">
+                            <div>
+                                <div className="font-bold mb-1">Spouse salutation</div>
+                                <div>{profile?.spouseSalutation || "-"}</div>
+                            </div>
+                            <div>
+                                <div className="font-bold mb-1">Spouse name</div>
+                                <div>{profile?.spouseName || "-"}</div>
+                            </div>
+                            <div>
+                                <div className="font-bold mb-1">Anniversary date</div>
+                                <div>{profile?.anniversaryDate || "-"}</div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === "Personal Preferences" && (
+                        <div className="flex-1 space-y-4 md:space-y-6 text-black">
+                            <div>
+                                <div className="font-bold mb-1">Hobbies and interests</div>
+                                <div>{profile?.hobbies?.join(", ") || "-"}</div>
+                            </div>
+                            <div>
+                                <div className="font-bold mb-1">Favorite sports</div>
+                                <div>{profile?.favoriteSports?.join(", ") || "-"}</div>
+                            </div>
+                            <div>
+                                <div className="font-bold mb-1">Favorite music genres</div>
+                                <div>{profile?.favoriteMusicGenres?.join(", ") || "-"}</div>
+                            </div>
+                            <div>
+                                <div className="font-bold mb-1">Preferred movies</div>
+                                <div>{profile?.preferredMovies?.join(", ") || "-"}</div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Placeholder tabs */}
+                    {/* {activeTab !== "Basic Details" && (
+                        <p className="text-gray-600">[ {activeTab} content here ]</p>
+                    )} */}
                 </div>
             </div>
         </div>

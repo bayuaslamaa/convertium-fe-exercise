@@ -1,17 +1,6 @@
 import { supabase } from "../lib/supabase";
 
-type Profile = {
-    userid: string;
-    salutation?: string;
-    firstName?: string;
-    lastName?: string;
-    maritalStatus?: string;
-    country?: string;
-    hobbies?: string[];
-    favoriteSports?: string[];
-    favoriteMusicGenres?: string[];
-    preferredMovies?: string[];
-};
+
 export const getProfileByUserId = async (userid: string) => {
     const { data, error } = await supabase
         .from('profiles')
@@ -21,12 +10,14 @@ export const getProfileByUserId = async (userid: string) => {
     return { data, error };
 };
 
-export const updateProfile = async (profile: Profile) => {
+
+export const updateProfileByUserId = async (userid: string, values: any) => {
     const { data, error } = await supabase
-        .from('profiles')
-        .update(profile)
-        .eq('userid', profile.userid)
-        .select()
-        .single();
-    return { data, error };
-};
+      .from("profiles")
+      .update(values)
+      .eq("userid", userid)
+      .select()
+      .single();
+  
+    return { profile: data, error };
+  };

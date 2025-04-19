@@ -1,13 +1,26 @@
 // src/context/UserContext.tsx
 import { createContext, useContext, useState, useEffect } from "react";
 
-type Profile = {
+export interface Profile {
   userid: string;
-  firstName?: string;
-  lastName?: string;
+  firstname?: string;
+  lastname?: string;
   email?: string;
   salutation?: string;
   maritalStatus?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  phoneNumber?: string;
+  address?: string;
+  spouseName?: string;
+  spouseSalutation?: string;
+  anniversaryDate?: string;
+  preferredLanguage?: string;
+  country?: string;
+  hobbies?: string[];
+  favoriteSports?: string[];
+  favoriteMusicGenres?: string[];
+  preferredMovies?: string[];
   // ... add more fields as needed
 };
 
