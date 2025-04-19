@@ -1,6 +1,7 @@
 import { Menu, Pen, UserRound } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useUser } from "../context/UserContextFull";
 
 const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState("Basic Details");
@@ -20,6 +21,7 @@ const ProfilePage = () => {
         ...(user.maritalStatus === "Married" ? ["Spouse Details"] : []),
         "Personal Preferences",
     ];
+    const { profile } = useUser();
 
     return (
         <div
@@ -100,19 +102,19 @@ const ProfilePage = () => {
                             <div className="flex-1 space-y-4 md:space-y-6 text-black">
                                 <div>
                                     <div className="font-bold mb-1">Salutation*</div>
-                                    <div>Mr.</div>
+                                    <div>{profile?.salutation || "-"}</div>
                                 </div>
                                 <div>
                                     <div className="font-bold mb-1">First name*</div>
-                                    <div>John</div>
+                                    <div>{profile?.firstName || "-"}</div>
                                 </div>
                                 <div>
                                     <div className="font-bold mb-1">Last name*</div>
-                                    <div>Doe Jr.</div>
+                                    <div>{profile?.lastName || "-"}</div>
                                 </div>
                                 <div>
                                     <div className="font-bold mb-1">Email address*</div>
-                                    <div>johndoe@anyemail.com</div>
+                                    <div>{profile?.email || "-"}</div>
                                 </div>
                             </div>
                         </div>

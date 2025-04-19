@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/auth";
 
 type RegisterForm = {
-    userId: string;
+    userid: string;
     password: string;
     confirmPassword: string;
 };
@@ -33,7 +33,7 @@ const Register = () => {
             return;
         }
         try {
-            const { data: dataRegister, error: errorRegister } = await registerUser(data.userId, data.password);
+            const { data: dataRegister, error: errorRegister } = await registerUser(data.userid, data.password);
 
             console.log("dataRegister", dataRegister);
             console.log("errorRegister", errorRegister);
@@ -79,11 +79,11 @@ const Register = () => {
                         <div className="w-3/4">
                             <input
                                 type="text"
-                                {...register("userId", { required: "User ID is required" })}
+                                {...register("userid", { required: "User ID is required" })}
                                 className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent"
                             />
-                            {errors.userId && (
-                                <p className="text-red-500 text-sm mt-1">{errors.userId.message}</p>
+                            {errors.userid && (
+                                <p className="text-red-500 text-sm mt-1">{errors.userid.message}</p>
                             )}
                         </div>
                     </div>

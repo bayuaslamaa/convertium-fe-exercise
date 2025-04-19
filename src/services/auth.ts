@@ -1,15 +1,15 @@
 import { supabase } from '../lib/supabase';
 
-export const registerUser = async (userId: string, password: string) => {
+export const registerUser = async (userid: string, password: string) => {
     try {
         const { data, error } = await supabase
             .from('users')
-            .insert([{ userid:userId, password }])
+            .insert([{ userid:userid, password }])
             .select()
             .single();
         const { data: profileData, error: profileError } = await supabase
                 .from('profiles')
-                .insert([{ userid:userId  }])
+                .insert([{ userid:userid  }])
                 .select()
             .single();
         return { data, error, profileData, profileError };
@@ -19,11 +19,11 @@ export const registerUser = async (userId: string, password: string) => {
     }
 };
 
-export const loginUser = async (userId: string, password: string) => {
+export const loginUser = async (userid: string, password: string) => {
   const { data, error } = await supabase
     .from('users')
     .select('*')
-    .eq('userId', userId)
+    .eq('userid', userid)
     .eq('password', password)
     .single();
 

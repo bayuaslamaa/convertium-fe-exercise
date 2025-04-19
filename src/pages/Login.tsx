@@ -1,10 +1,13 @@
 import { Eye } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../services/auth";
+import { getProfileByUserId } from "../services/profile";
+import { useUser } from "../context/UserContextFull";
 
 type LoginForm = {
-    userId: string;
+    userid: string;
     password: string;
     keepLoggedIn: boolean;
 };
@@ -18,11 +21,31 @@ const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const { setProfile } = useUser();
+    const navigate = useNavigate();
 
-    const onSubmit = (data: LoginForm) => {
+    const onSubmit = async (data: LoginForm) => {
         console.log("Login submitted:", data);
         // Simulate login fail
-        setErrorMessage("Your user ID and/or password does not match.");
+        try {
+            const { user, error } = await loginUser(data.userid, data.password);
+            if (error) {
+                setErrorMessage("Your user ID and/or password does not match.");
+                return;
+            }
+            const { data: profile } = await getProfileByUserId(user.userid);
+
+            console.log("Profile:", { profile });
+            setProfile(profile); // stores in context + localStorage
+            if (data.keepLoggedIn) {
+                localStorage.setItem("keepLoggedIn", "true");
+            } else {
+                localStorage.removeItem("keepLoggedIn");
+            }
+            navigate("/profile");
+        } catch (error) {
+            setErrorMessage("Your user ID and/or password does not match.");
+        }
     };
 
     return (
@@ -52,11 +75,11 @@ const Login = () => {
                         <div className="w-3/4">
                             <input
                                 type="text"
-                                {...register("userId", { required: "User ID is required" })}
+                                {...register("userid", { required: "User ID is required" })}
                                 className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent"
                             />
-                            {errors.userId && (
-                                <p className="text-red-500 text-sm mt-1">{errors.userId.message}</p>
+                            {errors.userid && (
+                                <p className="text-red-500 text-sm mt-1">{errors.userid.message}</p>
                             )}
                         </div>
                     </div>
