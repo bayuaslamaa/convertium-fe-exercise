@@ -38,8 +38,14 @@ const Login = () => {
             console.log("Profile:", { profile });
             setProfile(profile); // stores in context + localStorage
             if (data.keepLoggedIn) {
+                // Set a cookie that expires in 1 year for "Keep me logged in"
+                const expiryDate = new Date();
+                expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+                document.cookie = `keepLoggedIn=true; expires=${expiryDate.toUTCString()}; path=/`;
                 localStorage.setItem("keepLoggedIn", "true");
             } else {
+                // Remove the cookie and localStorage item if not keeping logged in
+                document.cookie = "keepLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 localStorage.removeItem("keepLoggedIn");
             }
             navigate("/profile");

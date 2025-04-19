@@ -21,7 +21,7 @@ const ProfilePage = () => {
         ...(user.maritalStatus === "Married" ? ["Spouse Details"] : []),
         "Personal Preferences",
     ];
-    const { profile } = useUser();
+    const { profile, setProfile } = useUser();
 
     return (
         <div
@@ -50,7 +50,11 @@ const ProfilePage = () => {
                             <Link to="/edit-profile" className="block hover:underline">
                                 Edit Profile
                             </Link>
-                            <Link to="/" className="block hover:underline">
+                            <Link to="/" className="block hover:underline" onClick={() => {
+                                localStorage.removeItem("keepLoggedIn");
+                                document.cookie = "keepLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                                setProfile(null);
+                            }}>
                                 Logout
                             </Link>
                         </div>
