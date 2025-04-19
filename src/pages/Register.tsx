@@ -1,7 +1,8 @@
 import { Eye } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../services/auth";
 
 type RegisterForm = {
     userId: string;
@@ -19,16 +20,31 @@ const Register = () => {
         mode: "onChange",
     });
 
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     const password = watch("password");
     const confirmPassword = watch("confirmPassword");
 
-    const onSubmit = (data: RegisterForm) => {
+    const onSubmit = async (data: RegisterForm) => {
         if (data.password !== data.confirmPassword) {
             setErrorMessage("Your passwords do not match.");
             return;
+        }
+        try {
+            const { data: dataRegister, error: errorRegister } = await registerUser(data.userId, data.password);
+
+            console.log("dataRegister", dataRegister);
+            console.log("errorRegister", errorRegister);
+            navigate("/");
+            if (errorRegister) {
+                setErrorMessage("An error occurred while registering. Please try again.");
+                return;
+            }
+        } catch (error) {
+            console.error('Error registering user:', error);
+            setErrorMessage("An error occurred while registering. Please try again.");
         }
 
         console.log("Register submitted:", data);

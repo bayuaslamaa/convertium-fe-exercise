@@ -26,7 +26,7 @@ const Input: React.FC<InputProps> = ({
             <input
                 id={name}
                 type={type}
-                // {...register(name)} // <- register must be called as a function
+                {...register(name)} // <- register must be called as a function
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none ${error ? "border-red-500" : "border-gray-300"
                     }`}
             />
