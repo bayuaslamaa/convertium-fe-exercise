@@ -34,16 +34,16 @@ const ProfilePage = () => {
                     </button>
                     {isDrawerOpen && (
                         <div className="absolute top-16 right-4 bg-white shadow-md rounded p-4 space-y-2 text-sm">
-                            <Link to="/" className="block hover:underline">
+                            <Link to="/" className="block hover:underline text-black">
                                 Home
                             </Link>
-                            <Link to="/profile" className="block hover:underline">
+                            <Link to="/profile" className="block hover:underline text-black">
                                 My Profile
                             </Link>
-                            <Link to="/edit-profile" className="block hover:underline">
+                            <Link to="/edit-profile" className="block hover:underline text-black">
                                 Edit Profile
                             </Link>
-                            <Link to="/" className="block hover:underline" onClick={() => {
+                            <Link to="/" className="block hover:underline text-black" onClick={() => {
                                 localStorage.removeItem("keepLoggedIn");
                                 document.cookie = "keepLoggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                                 setProfile(null);
