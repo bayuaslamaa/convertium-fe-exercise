@@ -85,7 +85,7 @@ const Login = () => {
                                 id="userid"
                                 type="text"
                                 {...register("userid", { required: "User ID is required" })}
-                                className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent focus:outline-none focus:ring-2 focus:ring-black"
+                                className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent focus:outline-none focus:ring-2 focus:ring-black text-black"
                                 aria-invalid={errors.userid ? "true" : "false"}
                                 aria-describedby={errors.userid ? "userid-error" : undefined}
                                 autoComplete="username"
@@ -104,7 +104,7 @@ const Login = () => {
                                 id="password"
                                 type={showPassword ? "text" : "password"}
                                 {...register("password", { required: "Password is required" })}
-                                className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent pr-10 focus:outline-none focus:ring-2 focus:ring-black"
+                                className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent pr-10 focus:outline-none focus:ring-2 focus:ring-black text-black"
                                 aria-invalid={errors.password ? "true" : "false"}
                                 aria-describedby={errors.password ? "password-error" : undefined}
                                 autoComplete="current-password"

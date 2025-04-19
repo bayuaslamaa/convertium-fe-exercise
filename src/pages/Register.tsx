@@ -80,7 +80,7 @@ const Register = () => {
                             <input
                                 type="text"
                                 {...register("userid", { required: "User ID is required" })}
-                                className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent"
+                                className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent text-black"
                             />
                             {errors.userid && (
                                 <p className="text-red-500 text-sm mt-1">{errors.userid.message}</p>
@@ -95,7 +95,7 @@ const Register = () => {
                             <input
                                 type={showPassword ? "text" : "password"}
                                 {...register("password", { required: "Password is required" })}
-                                className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent pr-10"
+                                className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent pr-10 text-black"
                             />
                             <span
                                 onClick={() => setShowPassword((prev) => !prev)}
@@ -118,7 +118,7 @@ const Register = () => {
                                 {...register("confirmPassword", {
                                     required: "Please confirm your password",
                                 })}
-                                className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent"
+                                className="w-full border border-black px-3 py-2 rounded-[2px] bg-transparent text-black"
                             />
                             {errors.confirmPassword && (
                                 <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
